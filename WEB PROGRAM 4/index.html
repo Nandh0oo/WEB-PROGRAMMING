@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wanderlust Gallery | Nature & Travel Photography</title>
+  <meta name="description" content="Explore Wanderlust Gallery - an interactive, responsive nature and travel photo gallery with an immersive lightbox slideshow, category filters, and auto-play.">
+
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES (DESIGN SYSTEM)
+       ========================================================================== */
+    :root {
+      /* Color Palette */
+      --color-bg: #090d16;
+      --color-surface: #111827;
+      --color-surface-hover: #1f2937;
+      --color-card-border: #1e293b;
+      --color-primary: #38bdf8;
+      --color-primary-dark: #0284c7;
+      --color-accent: #f59e0b;
+      --color-text-main: #f8fafc;
+      --color-text-muted: #94a3b8;
+      --color-text-dim: #64748b;
+      --color-overlay: rgba(0, 0, 0, 0.72);
+      --color-lightbox-backdrop: rgba(6, 9, 15, 0.94);
+
+      /* Typography */
+      --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-size-sm: 0.875rem;
+      --font-size-base: 1rem;
+      --font-size-lg: 1.125rem;
+      --font-size-xl: 1.35rem;
+      --font-size-2xl: 1.85rem;
+      --font-size-3xl: 2.5rem;
+      --font-size-4xl: 3.25rem;
+
+      /* Spacing */
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 0.75rem;
+      --spacing-md: 1.25rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3.5rem;
+
+      /* Radii & Shadows */
+      --radius-sm: 0.375rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-full: 9999px;
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      --shadow-hover: 0 20px 35px -5px rgba(56, 189, 248, 0.25), 0 10px 15px -3px rgba(0, 0, 0, 0.7);
+
+      /* Animations */
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ==========================================================================
+       2. RESET & BASE STYLES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 100%;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--color-bg);
+      color: var(--color-text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Accessibility focus indicators */
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ==========================================================================
+       3. HEADER SECTION
+       ========================================================================== */
+    .gallery-header {
+      padding: var(--spacing-xl) 0 var(--spacing-lg);
+      text-align: center;
+      position: relative;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      color: var(--color-primary);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .gallery-title {
+      font-size: var(--font-size-4xl);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: var(--spacing-xs);
+      background: linear-gradient(135deg, #ffffff 40%, var(--color-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gallery-tagline {
+      font-size: var(--font-size-lg);
+      color: var(--color-text-muted);
+      max-width: 620px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* ==========================================================================
+       4. CATEGORY FILTERS
+       ========================================================================== */
+    .filter-wrapper {
+      margin-bottom: var(--spacing-xl);
+      display: flex;
+      justify-content: center;
+    }
+
+    .filter-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      background-color: var(--color-surface);
+      padding: 0.4rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-card-border);
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-family: inherit;
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      padding: 0.55rem 1.35rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      min-height: 44px; /* Touch target minimum */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all var(--transition-fast);
+    }
+
+    .filter-btn:hover {
+      color: var(--color-text-main);
+      background-color: var(--color-surface-hover);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+      color: #0b1120;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+    }
+
+    /* ==========================================================================
+       5. RESPONSIVE GRID GALLERY
+       ========================================================================== */
+    .gallery-section {
+      flex: 1;
+      padding-bottom: var(--spacing-xl);
+    }
+
+    .gallery-grid {
+      display: grid;
+      gap: 1.75rem;
+      grid-template-columns: repeat(4, 1fr); /* Default desktop: 4 columns */
+    }
+
+    /* Individual Image Card */
+    .gallery-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background-color: var(--color-surface);
+      aspect-ratio: 4 / 3;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--color-card-border);
+      outline: none;
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+    }
+
+    /* Equal sized thumbnails with object-fit: cover */
+    .gallery-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Hover effects: smooth zoom + shadow */
+    .gallery-card:hover,
+    .gallery-card:focus-visible {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .gallery-card:hover .gallery-card-img,
+    .gallery-card:focus-visible .gallery-card-img {
+      transform: scale(1.08);
+    }
+
+    /* Overlay with Caption: Fades In */
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(9, 13, 22, 0.92) 0%, rgba(9, 13, 22, 0.4) 50%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+      opacity: 0;
+      transition: opacity var(--transition-normal);
+      pointer-events: none;
+    }
+
+    .gallery-card:hover .gallery-overlay,
+    .gallery-card:focus-visible .gallery-overlay {
+      opacity: 1;
+    }
+
+    .overlay-category {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-primary);
+      margin-bottom: 0.25rem;
+      transform: translateY(10px);
+      transition: transform var(--transition-normal);
+    }
+
+    .overlay-caption {
+      font-size: var(--font-size-base);
+      font-weight: 600;
+      color: var(--color-text-main);
+      line-height: 1.35;
+      transform: translateY(10px);
+      transition: transform var(--transition-normal);
+    }
+
+    .gallery-card:hover .overlay-category,
+    .gallery-card:hover .overlay-caption,
+    .gallery-card:focus-visible .overlay-category,
+    .gallery-card:focus-visible .overlay-caption {
+      transform: translateY(0);
+    }
+
+    /* Empty state notice for filters */
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: var(--spacing-xl) 0;
+      color: var(--color-text-muted);
+      font-size: var(--font-size-lg);
+    }
+
+    /* ==========================================================================
+       6. SLIDESHOW / LIGHTBOX VIEWER
+       ========================================================================== */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background-color: var(--color-lightbox-backdrop);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--transition-normal), visibility var(--transition-normal);
+      user-select: none;
+    }
+
+    .lightbox-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Lightbox Top Bar (Counter & Controls) */
+    .lightbox-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      z-index: 2010;
+    }
+
+    .lightbox-counter {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+    }
+
+    .lightbox-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Control Buttons */
+    .lightbox-btn {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--color-text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .lightbox-btn:hover {
+      background-color: rgba(255, 255, 255, 0.22);
+      transform: scale(1.05);
+    }
+
+    .lightbox-btn.active-autoplay {
+      background-color: var(--color-accent);
+      color: #0b1120;
+      font-weight: 600;
+      border-color: var(--color-accent);
+    }
+
+    .btn-close {
+      font-size: 1.5rem;
+      line-height: 1;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+    }
+
+    /* Main Stage: Prev, Image, Next */
+    .lightbox-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      padding: 0 1rem;
+      overflow: hidden;
+      min-height: 0; /* Prevents overflow in flex children */
+    }
+
+    .lightbox-nav-btn {
+      background-color: rgba(17, 24, 39, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--color-text-main);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2010;
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .lightbox-nav-btn:hover {
+      background-color: var(--color-primary);
+      color: #0b1120;
+      transform: scale(1.1);
+    }
+
+    /* Center image container */
+    .lightbox-figure {
+      flex: 1;
+      max-width: 90%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 0 auto;
+      padding: 0.5rem;
+    }
+
+    .lightbox-image-wrapper {
+      max-width: 100%;
+      max-height: calc(100vh - 240px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: calc(100vh - 240px);
+      object-fit: contain;
+      border-radius: var(--radius-md);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .lightbox-img.fade-out {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+
+    .lightbox-caption {
+      margin-top: 0.75rem;
+      text-align: center;
+      color: var(--color-text-main);
+      font-size: var(--font-size-base);
+      font-weight: 500;
+      max-width: 700px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* ==========================================================================
+       7. THUMBNAIL STRIP NAVIGATION
+       ========================================================================== */
+    .lightbox-thumb-strip {
+      padding: 0.75rem 1.5rem 1.25rem;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      gap: 0.6rem;
+      scroll-behavior: smooth;
+      z-index: 2010;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-primary-dark) transparent;
+    }
+
+    .lightbox-thumb-strip::-webkit-scrollbar {
+      height: 4px;
+    }
+    .lightbox-thumb-strip::-webkit-scrollbar-thumb {
+      background: var(--color-card-border);
+      border-radius: 4px;
+    }
+
+    .thumb-item {
+      width: 64px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      flex-shrink: 0;
+      cursor: pointer;
+      opacity: 0.45;
+      border: 2px solid transparent;
+      transition: all var(--transition-fast);
+      background-color: var(--color-surface);
+    }
+
+    .thumb-item:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
+    }
+
+    .thumb-item.active {
+      opacity: 1;
+      border-color: var(--color-primary);
+      transform: scale(1.08);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    .thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ==========================================================================
+       8. FOOTER
+       ========================================================================== */
+    .site-footer {
+      border-top: 1px solid var(--color-card-border);
+      padding: 1.75rem 0;
+      text-align: center;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-dim);
+    }
+
+    /* ==========================================================================
+       9. RESPONSIVE BREAKPOINTS (MEDIA QUERIES)
+       ========================================================================== */
+
+    /* DESKTOP (993px and above) */
+    @media (min-width: 993px) {
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columns on large screens */
+      }
+    }
+
+    @media (min-width: 993px) and (max-width: 1180px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on standard desktop */
+      }
+    }
+
+    /* TABLET (601px to 992px) */
+    @media (min-width: 601px) and (max-width: 992px) {
+      .gallery-title {
+        font-size: var(--font-size-3xl);
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns on tablet */
+        gap: 1.25rem;
+      }
+
+      .lightbox-image-wrapper {
+        max-height: calc(100vh - 220px);
+      }
+
+      .lightbox-img {
+        max-height: calc(100vh - 220px);
+      }
+    }
+
+    /* MOBILE (Up to 600px) */
+    @media (max-width: 600px) {
+      .gallery-header {
+        padding: var(--spacing-lg) 0 var(--spacing-md);
+      }
+
+      .gallery-title {
+        font-size: 2.1rem;
+      }
+
+      .gallery-tagline {
+        font-size: 0.95rem;
+      }
+
+      .filter-group {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .filter-btn {
+        flex: 1 1 calc(50% - 0.6rem);
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr; /* Exactly 1 column on mobile */
+        gap: 1.25rem;
+      }
+
+      /* On mobile, show captions slightly more prominently */
+      .gallery-overlay {
+        opacity: 0.9;
+        background: linear-gradient(to top, rgba(9, 13, 22, 0.95) 0%, transparent 80%);
+      }
+
+      .overlay-category,
+      .overlay-caption {
+        transform: translateY(0);
+      }
+
+      /* Lightbox Mobile Adjustments */
+      .lightbox-topbar {
+        padding: 0.75rem 1rem;
+      }
+
+      .lightbox-stage {
+        padding: 0 0.5rem;
+      }
+
+      .lightbox-nav-btn {
+        width: 42px;
+        height: 42px;
+        background-color: rgba(17, 24, 39, 0.85);
+      }
+
+      .lightbox-nav-prev {
+        left: 0.5rem;
+      }
+
+      .lightbox-nav-next {
+        right: 0.5rem;
+      }
+
+      .lightbox-image-wrapper {
+        max-height: calc(100vh - 250px);
+      }
+
+      .lightbox-img {
+        max-height: calc(100vh - 250px);
+      }
+
+      .lightbox-caption {
+        font-size: 0.9rem;
+      }
+
+      .thumb-item {
+        width: 52px;
+        height: 38px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. HEADER
+       ========================================================================== -->
+  <header class="gallery-header">
+    <div class="container">
+      <span class="header-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        Curated Photography
+      </span>
+      <h1 class="gallery-title">Wanderlust Gallery</h1>
+      <p class="gallery-tagline">
+        Capturing the raw majesty of earth, quiet alpine heights, vibrant cityscapes, and horizons uncharted.
+      </p>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       2. CATEGORY FILTERS & MAIN GALLERY GRID
+       ========================================================================== -->
+  <main class="gallery-section">
+    <div class="container">
+      <!-- Filter buttons -->
+      <nav class="filter-wrapper" aria-label="Photo category filter">
+        <div class="filter-group" role="tablist">
+          <button class="filter-btn active" data-category="all" role="tab" aria-selected="true">
+            All Photos
+          </button>
+          <button class="filter-btn" data-category="nature" role="tab" aria-selected="false">
+            🌲 Nature
+          </button>
+          <button class="filter-btn" data-category="city" role="tab" aria-selected="false">
+            🏙️ City
+          </button>
+          <button class="filter-btn" data-category="travel" role="tab" aria-selected="false">
+            ✈️ Travel
+          </button>
+        </div>
+      </nav>
+
+      <!-- Dynamic Grid Container -->
+      <section id="galleryGrid" class="gallery-grid" aria-label="Image gallery grid">
+        <!-- Rendered dynamically by JavaScript -->
+      </section>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       3. SLIDESHOW / LIGHTBOX VIEWER MODAL
+       ========================================================================== -->
+  <div id="lightboxModal" class="lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Image slideshow viewer">
+    <!-- Top Bar Controls -->
+    <div class="lightbox-topbar">
+      <div id="lightboxCounter" class="lightbox-counter" aria-live="polite">1 / 12</div>
+      <div class="lightbox-top-actions">
+        <!-- Auto-Play Toggle Button -->
+        <button id="autoPlayBtn" class="lightbox-btn" aria-label="Start slideshow autoplay">
+          <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span id="autoPlayText">Play</span>
+        </button>
+        <!-- Close Button -->
+        <button id="closeBtn" class="lightbox-btn btn-close" aria-label="Close slideshow viewer (Escape)">&times;</button>
+      </div>
+    </div>
+
+    <!-- Main Stage: Navigation Buttons & Enlarged Image -->
+    <div class="lightbox-stage">
+      <button id="prevBtn" class="lightbox-nav-btn lightbox-nav-prev" aria-label="Previous image (Left arrow key)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <figure class="lightbox-figure">
+        <div class="lightbox-image-wrapper">
+          <img id="lightboxImg" class="lightbox-img" src="" alt="">
+        </div>
+        <figcaption id="lightboxCaption" class="lightbox-caption"></figcaption>
+      </figure>
+
+      <button id="nextBtn" class="lightbox-nav-btn lightbox-nav-next" aria-label="Next image (Right arrow key)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Thumbnail Strip Navigation -->
+    <div id="thumbStrip" class="lightbox-thumb-strip" aria-label="Slideshow image thumbnails">
+      <!-- Generated dynamically by JavaScript -->
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       4. FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Wanderlust Gallery. Crafted with semantic HTML5, CSS3 Grid, and vanilla JavaScript.</p>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       5. JAVASCRIPT LOGIC
+       ========================================================================== -->
+  <script>
+    /* --------------------------------------------------------------------------
+       IMAGE DATA ARRAY
+       12 curated nature, city, and travel images with captions and categories
+       -------------------------------------------------------------------------- */
+    const galleryData = [
+      {
+        id: 1,
+        category: "nature",
+        thumbSrc: "https://picsum.photos/id/10/600/450",
+        largeSrc: "https://picsum.photos/id/10/1200/900",
+        alt: "Misty evergreen forest path surrounded by tall pine trees",
+        caption: "Mystic Whispers — Morning fog veiling a pine forest in the Pacific Northwest."
+      },
+      {
+        id: 2,
+        category: "nature",
+        thumbSrc: "https://picsum.photos/id/16/600/450",
+        largeSrc: "https://picsum.photos/id/16/1200/900",
+        alt: "Golden sunlight piercing through a lush green woodland canopy",
+        caption: "Canopy of Light — Golden hour piercing through dense spring foliage."
+      },
+      {
+        id: 3,
+        category: "nature",
+        thumbSrc: "https://picsum.photos/id/28/600/450",
+        largeSrc: "https://picsum.photos/id/28/1200/900",
+        alt: "Still alpine mountain lake reflecting rugged rock peaks",
+        caption: "Mirror Waters — Pristine mountain reflection in an alpine glacial lake."
+      },
+      {
+        id: 4,
+        category: "nature",
+        thumbSrc: "https://picsum.photos/id/29/600/450",
+        largeSrc: "https://picsum.photos/id/29/1200/900",
+        alt: "Snow-dusted mountain summit rising above a blanket of clouds",
+        caption: "Above the Clouds — Rugged jagged ridge catching the first alpine sunrise."
+      },
+      {
+        id: 5,
+        category: "city",
+        thumbSrc: "https://picsum.photos/id/42/600/450",
+        largeSrc: "https://picsum.photos/id/42/1200/900",
+        alt: "Modern city cafe bar with people enjoying espresso in warm ambiance",
+        caption: "Metropolitan Rhythm — The quiet bustle of an artisan cafe downtown."
+      },
+      {
+        id: 6,
+        category: "city",
+        thumbSrc: "https://picsum.photos/id/43/600/450",
+        largeSrc: "https://picsum.photos/id/43/1200/900",
+        alt: "Vintage classic automobiles parked along historic European avenues",
+        caption: "Old World Charm — Cobblestone streets and heritage facades in Europe."
+      },
+      {
+        id: 7,
+        category: "city",
+        thumbSrc: "https://picsum.photos/id/48/600/450",
+        largeSrc: "https://picsum.photos/id/48/1200/900",
+        alt: "Sleek geometric urban skyscrapers and bridge perspective",
+        caption: "Skyward Lines — Geometric precision and architectural symmetry."
+      },
+      {
+        id: 8,
+        category: "city",
+        thumbSrc: "https://picsum.photos/id/49/600/450",
+        largeSrc: "https://picsum.photos/id/49/1200/900",
+        alt: "Urban avenue framed by elegant neoclassical apartment facades",
+        caption: "Capital Elegance — Timeless Parisian balconies and street corners."
+      },
+      {
+        id: 9,
+        category: "travel",
+        thumbSrc: "https://picsum.photos/id/54/600/450",
+        largeSrc: "https://picsum.photos/id/54/1200/900",
+        alt: "Solo backpacker with trekking gear gazing over an expansive canyon",
+        caption: "The Horizon Seeker — Looking over the boundless expanse of the canyon."
+      },
+      {
+        id: 10,
+        category: "travel",
+        thumbSrc: "https://picsum.photos/id/57/600/450",
+        largeSrc: "https://picsum.photos/id/57/1200/900",
+        alt: "Secluded ocean coastline with jagged cliffs and turquoise waves",
+        caption: "Coastal Drift — Turquoise ocean breakers carving into rugged cliffs."
+      },
+      {
+        id: 11,
+        category: "travel",
+        thumbSrc: "https://picsum.photos/id/64/600/450",
+        largeSrc: "https://picsum.photos/id/64/1200/900",
+        alt: "Open highway vanishing into a scenic sunset horizon",
+        caption: "Endless Journey — The promise of distant frontiers down an open highway."
+      },
+      {
+        id: 12,
+        category: "travel",
+        thumbSrc: "https://picsum.photos/id/70/600/450",
+        largeSrc: "https://picsum.photos/id/70/1200/900",
+        alt: "Lone oak tree in the center of vibrant green rolling agricultural hills",
+        caption: "Pastoral Peace — Solitary sentinel in the rolling Tuscan countryside."
+      }
+    ];
+
+    /* --------------------------------------------------------------------------
+       STATE VARIABLES
+       -------------------------------------------------------------------------- */
+    let currentCategory = "all";
+    let activeImagesList = [...galleryData]; // Images currently visible after filtering
+    let currentIndex = 0;                   // Index in activeImagesList
+    let autoPlayTimer = null;               // Holds setInterval reference
+    const AUTOPLAY_DELAY = 3000;            // 3 seconds interval
+
+    /* Touch Swipe tracking */
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    /* DOM Element References */
+    const galleryGrid = document.getElementById("galleryGrid");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+
+    const lightboxModal = document.getElementById("lightboxModal");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+    const lightboxCounter = document.getElementById("lightboxCounter");
+    const thumbStrip = document.getElementById("thumbStrip");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const autoPlayBtn = document.getElementById("autoPlayBtn");
+    const playIcon = document.getElementById("playIcon");
+    const autoPlayText = document.getElementById("autoPlayText");
+
+    /* SVG icon strings for Play / Pause toggle */
+    const PLAY_SVG = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+    const PAUSE_SVG = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+
+    /* --------------------------------------------------------------------------
+       RENDER GALLERY GRID DYNAMICALLY
+       -------------------------------------------------------------------------- */
+    function renderGallery() {
+      galleryGrid.innerHTML = "";
+
+      if (activeImagesList.length === 0) {
+        galleryGrid.innerHTML = '<p class="no-results">No images found for this category.</p>';
+        return;
+      }
+
+      activeImagesList.forEach((item, index) => {
+        // Create accessible card article
+        const card = document.createElement("article");
+        card.className = "gallery-card";
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", `View ${item.caption}`);
+        card.dataset.index = index;
+
+        // Thumbnail image
+        const img = document.createElement("img");
+        img.className = "gallery-card-img";
+        img.src = item.thumbSrc;
+        img.alt = item.alt;
+        img.loading = "lazy";
+
+        // Hover overlay
+        const overlay = document.createElement("div");
+        overlay.className = "gallery-overlay";
+        overlay.innerHTML = `
+          <span class="overlay-category">${item.category}</span>
+          <p class="overlay-caption">${item.caption}</p>
+        `;
+
+        card.appendChild(img);
+        card.appendChild(overlay);
+
+        // Click & keyboard activation
+        card.addEventListener("click", () => openViewer(index));
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openViewer(index);
+          }
+        });
+
+        galleryGrid.appendChild(card);
+      });
+    }
+
+    /* --------------------------------------------------------------------------
+       CATEGORY FILTER LOGIC
+       -------------------------------------------------------------------------- */
+    function setupCategoryFilters() {
+      filterButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterButtons.forEach((b) => {
+            b.classList.remove("active");
+            b.setAttribute("aria-selected", "false");
+          });
+
+          btn.classList.add("active");
+          btn.setAttribute("aria-selected", "true");
+
+          currentCategory = btn.dataset.category;
+          if (currentCategory === "all") {
+            activeImagesList = [...galleryData];
+          } else {
+            activeImagesList = galleryData.filter((img) => img.category === currentCategory);
+          }
+
+          renderGallery();
+        });
+      });
+    }
+
+    /* --------------------------------------------------------------------------
+       SLIDESHOW / LIGHTBOX VIEWER CORE FUNCTIONS
+       -------------------------------------------------------------------------- */
+
+    /**
+     * Opens the viewer at a specific index
+     */
+    function openViewer(index) {
+      if (activeImagesList.length === 0) return;
+      currentIndex = index;
+
+      renderThumbnailStrip();
+      showImage(currentIndex);
+
+      lightboxModal.classList.add("active");
+      lightboxModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden"; // Prevent background scroll
+
+      // Focus close button for accessibility
+      closeBtn.focus();
+    }
+
+    /**
+     * Closes the viewer and stops any active auto-play
+     */
+    function closeViewer() {
+      stopAutoPlay();
+      lightboxModal.classList.remove("active");
+      lightboxModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = ""; // Restore background scroll
+    }
+
+    /**
+     * Displays image at given index with smooth transition
+     */
+    function showImage(index) {
+      if (index < 0) index = activeImagesList.length - 1;
+      if (index >= activeImagesList.length) index = 0;
+      currentIndex = index;
+
+      const item = activeImagesList[currentIndex];
+
+      // Smooth fade transition
+      lightboxImg.classList.add("fade-out");
+
+      setTimeout(() => {
+        lightboxImg.src = item.largeSrc;
+        lightboxImg.alt = item.alt;
+        lightboxCaption.textContent = item.caption;
+        lightboxCounter.textContent = `${currentIndex + 1} / ${activeImagesList.length}`;
+
+        lightboxImg.classList.remove("fade-out");
+
+        // Update active thumbnail highlight
+        updateActiveThumbnail(currentIndex);
+      }, 150);
+    }
+
+    /**
+     * Advances to the next image (loops around)
+     */
+    function nextImage() {
+      showImage(currentIndex + 1);
+    }
+
+    /**
+     * Moves to the previous image (loops around)
+     */
+    function prevImage() {
+      showImage(currentIndex - 1);
+    }
+
+    /* --------------------------------------------------------------------------
+       AUTO-PLAY FUNCTIONALITY
+       -------------------------------------------------------------------------- */
+
+    /**
+     * Starts interval timer for automatic transitions
+     */
+    function startAutoPlay() {
+      stopAutoPlay(); // Ensure any existing timer is cleared first
+
+      autoPlayTimer = setInterval(nextImage, AUTOPLAY_DELAY);
+      autoPlayBtn.classList.add("active-autoplay");
+      autoPlayBtn.setAttribute("aria-label", "Pause slideshow autoplay");
+      playIcon.innerHTML = PAUSE_SVG;
+      autoPlayText.textContent = "Pause";
+    }
+
+    /**
+     * Stops interval timer and resets button state
+     */
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+      autoPlayBtn.classList.remove("active-autoplay");
+      autoPlayBtn.setAttribute("aria-label", "Start slideshow autoplay");
+      playIcon.innerHTML = PLAY_SVG;
+      autoPlayText.textContent = "Play";
+    }
+
+    /**
+     * Toggles between play and pause
+     */
+    function toggleAutoPlay() {
+      if (autoPlayTimer) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       THUMBNAIL STRIP NAVIGATION
+       -------------------------------------------------------------------------- */
+    function renderThumbnailStrip() {
+      thumbStrip.innerHTML = "";
+
+      activeImagesList.forEach((item, index) => {
+        const thumb = document.createElement("div");
+        thumb.className = `thumb-item ${index === currentIndex ? "active" : ""}`;
+        thumb.setAttribute("role", "button");
+        thumb.setAttribute("tabindex", "0");
+        thumb.setAttribute("aria-label", `Jump to photo ${index + 1}`);
+
+        const img = document.createElement("img");
+        img.src = item.thumbSrc;
+        img.alt = "";
+
+        thumb.appendChild(img);
+
+        thumb.addEventListener("click", () => {
+          stopAutoPlay(); // Pause autoplay on direct user interaction
+          showImage(index);
+        });
+
+        thumb.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            stopAutoPlay();
+            showImage(index);
+          }
+        });
+
+        thumbStrip.appendChild(thumb);
+      });
+    }
+
+    function updateActiveThumbnail(index) {
+      const thumbs = thumbStrip.querySelectorAll(".thumb-item");
+      thumbs.forEach((thumb, idx) => {
+        if (idx === index) {
+          thumb.classList.add("active");
+          // Smoothly scroll active thumbnail into visible view
+          thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        } else {
+          thumb.classList.remove("active");
+        }
+      });
+    }
+
+    /* --------------------------------------------------------------------------
+       EVENT LISTENERS & ACCESSIBILITY CONTROLS
+       -------------------------------------------------------------------------- */
+
+    // Next / Prev button clicks (pauses autoplay so user has manual control)
+    nextBtn.addEventListener("click", () => {
+      stopAutoPlay();
+      nextImage();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      stopAutoPlay();
+      prevImage();
+    });
+
+    // Close button
+    closeBtn.addEventListener("click", closeViewer);
+
+    // Auto-Play toggle button
+    autoPlayBtn.addEventListener("click", toggleAutoPlay);
+
+    // Close modal on backdrop click (clicking outside the stage content)
+    lightboxModal.addEventListener("click", (e) => {
+      if (
+        e.target === lightboxModal ||
+        e.target.classList.contains("lightbox-stage") ||
+        e.target.classList.contains("lightbox-figure")
+      ) {
+        closeViewer();
+      }
+    });
+
+    // Keyboard controls: Escape, ArrowLeft, ArrowRight, Space
+    window.addEventListener("keydown", (e) => {
+      if (!lightboxModal.classList.contains("active")) return;
+
+      if (e.key === "Escape") {
+        closeViewer();
+      } else if (e.key === "ArrowRight") {
+        stopAutoPlay();
+        nextImage();
+      } else if (e.key === "ArrowLeft") {
+        stopAutoPlay();
+        prevImage();
+      } else if (e.key === " " && document.activeElement === document.body) {
+        e.preventDefault();
+        toggleAutoPlay();
+      }
+    });
+
+    /* Touch Support: Swipe Left and Right */
+    lightboxModal.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+      touchStartY = e.changedTouches[0].clientY;
+    }, { passive: true });
+
+    lightboxModal.addEventListener("touchend", (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      // Ensure horizontal swipe is dominant and exceeds 45px threshold
+      if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+        stopAutoPlay();
+        if (diffX < 0) {
+          nextImage(); // Swiped left
+        } else {
+          prevImage(); // Swiped right
+        }
+      }
+    }, { passive: true });
+
+    /* --------------------------------------------------------------------------
+       INITIALIZATION
+       -------------------------------------------------------------------------- */
+    setupCategoryFilters();
+    renderGallery();
+  </script>
+</body>
+</html>

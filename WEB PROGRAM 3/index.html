@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseFit — Smart Fitness Band</title>
+  <meta name="description" content="PulseFit is a modern smart fitness band engineered with continuous heart rate monitoring, advanced sleep analysis, 7-day battery life, and 50m water resistance.">
+
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CSS VARIABLES & DESIGN TOKENS
+       ========================================================================== */
+    :root {
+      /* Brand Color Palette */
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --accent-cyan: #06b6d4;
+      --accent-pink: #ec4899;
+      --accent-green: #10b981;
+
+      /* Neutral Palette */
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #94a3b8;
+      --border-color: #e2e8f0;
+
+      /* Gradients */
+      --gradient-brand: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+      --gradient-accent: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+      --gradient-dark: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      --gradient-cta: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #06b6d4 100%);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 10px 25px -5px rgba(37, 99, 235, 0.15), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+      --shadow-card: 0 4px 20px rgba(15, 23, 42, 0.06);
+      --shadow-card-hover: 0 14px 28px rgba(37, 99, 235, 0.12), 0 10px 10px rgba(15, 23, 42, 0.04);
+
+      /* Typography & Metrics */
+      --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-full: 9999px;
+      --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ==========================================================================
+       RESET & BASE STYLES (Mobile First)
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px; /* Base 1rem = 16px for readability & accessibility */
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition-standard);
+    }
+
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--accent-cyan);
+      outline-offset: 3px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    /* Button System (Meets >44px touch target requirement) */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 3rem; /* 48px touch target */
+      padding: 0.75rem 1.75rem;
+      font-family: var(--font-family);
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      border: 2px solid transparent;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+      transition: var(--transition-standard);
+    }
+
+    .btn-primary {
+      background: var(--gradient-brand);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-white {
+      background-color: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-white:hover {
+      background-color: #f8fafc;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-tag {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      background-color: var(--primary-light);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ==========================================================================
+       1. HEADER & NAVBAR (CSS-Only Responsive Menu)
+       ========================================================================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition-standard);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 4rem; /* 64px */
+      position: relative;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .logo-icon {
+      width: 2rem;
+      height: 2rem;
+      background: var(--gradient-brand);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+
+    .logo span {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* CSS-Only Mobile Menu Toggle using Hidden Checkbox */
+    .menu-toggle-input {
+      display: none;
+    }
+
+    .menu-toggle-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px; /* Accessible 44px touch target */
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      user-select: none;
+      z-index: 1001;
+    }
+
+    .menu-toggle-btn .bar {
+      width: 24px;
+      height: 2.5px;
+      background-color: var(--text-main);
+      border-radius: 2px;
+      transition: var(--transition-standard);
+      transform-origin: center;
+    }
+
+    /* Navigation list on mobile (hidden dropdown via CSS) */
+    .nav-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transition: max-height 0.35s ease, opacity 0.3s ease, visibility 0.3s;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem;
+      gap: 1rem;
+    }
+
+    .nav-link {
+      display: block;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      background-color: var(--primary-light);
+    }
+
+    .nav-btn {
+      width: 100%;
+    }
+
+    /* Checkbox state transforms hamburger to 'X' and expands menu */
+    .menu-toggle-input:checked ~ .nav-menu {
+      max-height: 320px;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .menu-toggle-input:checked ~ .menu-toggle-btn .bar:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg);
+    }
+
+    .menu-toggle-input:checked ~ .menu-toggle-btn .bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle-input:checked ~ .menu-toggle-btn .bar:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+    }
+
+    /* ==========================================================================
+       2. HERO / PRODUCT INTRODUCTION SECTION
+       ========================================================================== */
+    .hero-section {
+      padding-top: 2.5rem;
+      padding-bottom: 3.5rem;
+      background: radial-gradient(circle at top right, rgba(6, 182, 212, 0.08), transparent 50%),
+                  radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.08), transparent 50%);
+    }
+
+    .hero-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-content {
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-badge .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseAnimation 2s infinite;
+    }
+
+    @keyframes pulseAnimation {
+      0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    .hero-headline {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+    }
+
+    .hero-headline .text-gradient {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1.75rem;
+      max-width: 32rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 20rem;
+      margin: 0 auto;
+    }
+
+    .hero-guarantee {
+      margin-top: 1rem;
+      font-size: 0.8125rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    /* Hero Responsive Product Illustration / Graphic */
+    .hero-visual {
+      width: 100%;
+      max-width: 360px;
+      position: relative;
+    }
+
+    .band-card {
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      border-radius: 1.75rem;
+      padding: 1.75rem;
+      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .band-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 20%, rgba(6, 182, 212, 0.15), transparent 45%);
+      pointer-events: none;
+    }
+
+    .band-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    /* Smart Band SVG Vector Art */
+    .band-svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.45));
+    }
+
+    /* Dynamic Stat Pill Overlay */
+    .band-stat-pill {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 0.8125rem;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-label {
+      color: #94a3b8;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-value {
+      font-weight: 700;
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    .stat-value.heart {
+      color: #f43f5e;
+    }
+
+    /* ==========================================================================
+       3. FEATURES SECTION (Grid: 1 col on mobile, 2 on tablet, 3 on desktop)
+       ========================================================================== */
+    .features-section {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+      background-color: var(--bg-surface);
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* 1 column on mobile (default) */
+      gap: 1.5rem;
+      text-align: left;
+    }
+
+    .feature-card {
+      background-color: var(--bg-page);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition-standard);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-card-hover);
+      border-color: #cbd5e1;
+      background-color: #ffffff;
+    }
+
+    .feature-icon-wrapper {
+      width: 3.25rem;
+      height: 3.25rem;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Specific Icon Color Gradients */
+    .icon-heart {
+      background: linear-gradient(135deg, #f43f5e, #be123c);
+    }
+    .icon-sleep {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+    .icon-battery {
+      background: linear-gradient(135deg, #10b981, #047857);
+    }
+    .icon-water {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    }
+    .icon-oxygen {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+    .icon-alerts {
+      background: linear-gradient(135deg, #6366f1, #4338ca);
+    }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ==========================================================================
+       4. CALL TO ACTION (CTA) SECTION
+       ========================================================================== */
+    .cta-section {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+      background-color: var(--bg-page);
+    }
+
+    .cta-banner {
+      background: var(--gradient-cta);
+      color: #ffffff;
+      border-radius: 1.5rem;
+      padding: 2.75rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .cta-line {
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 520px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    .cta-button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cta-badge-bar {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.25rem;
+      font-size: 0.8125rem;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .cta-badge-bar span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* ==========================================================================
+       5. FOOTER SECTION
+       ========================================================================== */
+    .site-footer {
+      background-color: #0b1120;
+      color: #94a3b8;
+      padding-top: 3.5rem;
+      padding-bottom: 2.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.875rem;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-brand .logo {
+      color: #ffffff;
+    }
+
+    .footer-brand p {
+      color: #64748b;
+      max-width: 320px;
+      line-height: 1.6;
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .footer-nav-title {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-nav a {
+      color: #94a3b8;
+    }
+
+    .footer-nav a:hover {
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .social-link {
+      width: 44px; /* Accessible touch target */
+      height: 44px;
+      border-radius: var(--radius-full);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      transition: var(--transition-standard);
+    }
+
+    .social-link:hover {
+      background-color: var(--primary);
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+      color: #64748b;
+      font-size: 0.8125rem;
+    }
+
+    /* ==========================================================================
+       MEDIA QUERIES (Mobile-First Breakpoint Architecture)
+       Breakpoint 1: Mobile (default, up to 600px)
+       Breakpoint 2: Tablet (601px to 992px)
+       Breakpoint 3: Desktop (993px and above)
+       ========================================================================== */
+
+    /* --------------------------------------------------------------------------
+       BREAKPOINT 2: TABLET (601px to 992px)
+       -------------------------------------------------------------------------- */
+    @media (min-width: 601px) {
+      .section-title {
+        font-size: 2.125rem;
+      }
+
+      .hero-section {
+        padding-top: 3.5rem;
+        padding-bottom: 4.5rem;
+      }
+
+      .hero-headline {
+        font-size: 2.75rem;
+      }
+
+      .hero-actions {
+        flex-direction: row;
+        max-width: 26rem;
+      }
+
+      .hero-actions .btn {
+        flex: 1;
+      }
+
+      /* Requirement: Features must be 2 columns on tablet */
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem;
+      }
+
+      .cta-banner {
+        padding: 3.5rem 2.5rem;
+      }
+
+      .cta-title {
+        font-size: 2.25rem;
+      }
+
+      .cta-button-group {
+        flex-direction: row;
+      }
+
+      .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .footer-nav {
+        min-width: 140px;
+      }
+    }
+
+    /* Tablet Menu Behavior: Switch navigation from mobile dropdown to horizontal navbar */
+    @media (min-width: 768px) {
+      .menu-toggle-btn {
+        display: none; /* Hide hamburger toggle on screens >= 768px */
+      }
+
+      .nav-menu {
+        position: static;
+        max-height: none;
+        opacity: 1;
+        visibility: visible;
+        background: transparent;
+        box-shadow: none;
+        border-bottom: none;
+      }
+
+      .nav-list {
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+        gap: 1.5rem;
+      }
+
+      .nav-link {
+        padding: 0.5rem 0.5rem;
+      }
+
+      .nav-btn {
+        width: auto;
+        min-height: 2.5rem;
+        padding: 0.5rem 1.25rem;
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       BREAKPOINT 3: DESKTOP (993px and above)
+       -------------------------------------------------------------------------- */
+    @media (min-width: 993px) {
+      .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-section {
+        padding-top: 4.5rem;
+        padding-bottom: 5.5rem;
+      }
+
+      .hero-container {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        gap: 3.5rem;
+      }
+
+      .hero-content {
+        text-align: left;
+        flex: 1;
+      }
+
+      .hero-description {
+        margin-left: 0;
+        margin-right: 0;
+        font-size: 1.125rem;
+      }
+
+      .hero-actions {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .hero-guarantee {
+        justify-content: flex-start;
+      }
+
+      .hero-visual {
+        flex: 1;
+        max-width: 440px;
+      }
+
+      /* Requirement: Features must be 3 columns on desktop */
+      .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .features-section {
+        padding-top: 5.5rem;
+        padding-bottom: 5.5rem;
+      }
+
+      .cta-section {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+      }
+
+      .cta-banner {
+        padding: 4.5rem 3.5rem;
+      }
+
+      .cta-title {
+        font-size: 2.75rem;
+      }
+
+      .cta-line {
+        font-size: 1.2rem;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. HEADER & NAVBAR
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <!-- Brand Logo -->
+      <a href="#home" class="logo" aria-label="PulseFit Home">
+        <div class="logo-icon">
+          <!-- Pulse wave inline SVG -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <span>PulseFit</span>
+      </a>
+
+      <!-- CSS-only Checkbox for responsive mobile menu toggle -->
+      <input type="checkbox" id="nav-toggle" class="menu-toggle-input" aria-label="Toggle navigation menu">
+      <label for="nav-toggle" class="menu-toggle-btn" aria-hidden="true">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </label>
+
+      <!-- Navigation links -->
+      <nav class="nav-menu" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#specs" class="nav-link">Specifications</a></li>
+          <li><a href="#buy" class="btn btn-primary nav-btn">Buy Now</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <!-- ==========================================================================
+         2. HERO SECTION / PRODUCT INTRODUCTION
+         ========================================================================== -->
+    <section class="hero-section">
+      <div class="container hero-container">
+        <!-- Hero Left / Content -->
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            <span>Next-Gen Smart Band V3 Now Available</span>
+          </div>
+          <h1 class="hero-headline">
+            Elevate Your Rhythm. <br>
+            <span class="text-gradient">Master Your Health.</span>
+          </h1>
+          <p class="hero-description">
+            PulseFit delivers real-time cardiovascular monitoring, deep sleep analysis, and intelligent activity tracking in an ultra-light, aerospace-grade silicone band built for your everyday grind.
+          </p>
+          <div class="hero-actions">
+            <a href="#buy" class="btn btn-primary">
+              <span>Buy Now — $79</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="#features" class="btn btn-white">Explore Features</a>
+          </div>
+          <div class="hero-guarantee">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>30-Day Money-Back Guarantee • Free Express Delivery</span>
+          </div>
+        </div>
+
+        <!-- Hero Right / Product Illustration -->
+        <div class="hero-visual">
+          <div class="band-card">
+            <div class="band-display">
+              <!-- Inline SVG: High-Fidelity PulseFit Smart Band Illustration -->
+              <svg class="band-svg" viewBox="0 0 320 280" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PulseFit Smart Band with active OLED display">
+                <defs>
+                  <!-- Band Strap Gradient -->
+                  <linearGradient id="strapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#334155" />
+                    <stop offset="50%" stop-color="#1e293b" />
+                    <stop offset="100%" stop-color="#0f172a" />
+                  </linearGradient>
+                  <!-- OLED Screen Glow Gradient -->
+                  <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#0b132b" />
+                    <stop offset="100%" stop-color="#020617" />
+                  </linearGradient>
+                  <!-- Screen Accent Pulse Gradient -->
+                  <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#06b6d4" />
+                    <stop offset="50%" stop-color="#3b82f6" />
+                    <stop offset="100%" stop-color="#ec4899" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Upper Strap -->
+                <path d="M110 30 C110 10, 210 10, 210 30 L218 80 L102 80 Z" fill="url(#strapGrad)" stroke="#475569" stroke-width="2"/>
+                <!-- Upper Strap Texture Ridges -->
+                <line x1="120" y1="45" x2="200" y2="45" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="125" y1="60" x2="195" y2="60" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+
+                <!-- Lower Strap -->
+                <path d="M102 200 L218 200 L210 255 C210 275, 110 275, 110 255 Z" fill="url(#strapGrad)" stroke="#475569" stroke-width="2"/>
+                <!-- Lower Strap Texture Ridges -->
+                <line x1="125" y1="220" x2="195" y2="220" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="120" y1="235" x2="200" y2="235" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+
+                <!-- Smart Band Main Casing -->
+                <rect x="92" y="70" width="136" height="140" rx="34" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+
+                <!-- Bezel Border Glow -->
+                <rect x="100" y="78" width="120" height="124" rx="26" fill="url(#screenGrad)" stroke="#1e293b" stroke-width="2"/>
+
+                <!-- Display Top Info: Time & Battery -->
+                <text x="116" y="105" fill="#94a3b8" font-family="'Poppins', sans-serif" font-size="12" font-weight="600">10:42</text>
+                <!-- Battery Icon -->
+                <rect x="186" y="96" width="18" height="10" rx="2" stroke="#10b981" stroke-width="1.5" fill="none"/>
+                <rect x="188" y="98" width="11" height="6" rx="1" fill="#10b981"/>
+                <path d="M205 99 L205 103" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+
+                <!-- Big Heart Rate Metric -->
+                <g transform="translate(112, 115)">
+                  <!-- Mini Heart Icon -->
+                  <path d="M10 5 C6 1, 0 4, 0 9 C0 14, 10 19, 10 19 C10 19, 20 14, 20 9 C20 4, 14 1, 10 5 Z" fill="#f43f5e"/>
+                  <text x="26" y="16" fill="#ffffff" font-family="'Poppins', sans-serif" font-size="20" font-weight="700">72</text>
+                  <text x="56" y="16" fill="#f43f5e" font-family="'Poppins', sans-serif" font-size="10" font-weight="600">BPM</text>
+                </g>
+
+                <!-- Heart Rate Wave ECG Line -->
+                <path d="M110 156 L125 156 L132 144 L140 168 L148 138 L155 162 L162 156 L210 156" fill="none" stroke="url(#pulseGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- Bottom Metric: Step Count & Calorie Flame -->
+                <g transform="translate(116, 172)">
+                  <circle cx="8" cy="8" r="6" fill="#06b6d4" opacity="0.2"/>
+                  <circle cx="8" cy="8" r="3" fill="#06b6d4"/>
+                  <text x="22" y="12" fill="#e2e8f0" font-family="'Poppins', sans-serif" font-size="12" font-weight="600">8,429 steps</text>
+                </g>
+              </svg>
+
+              <!-- Stats summary under screen -->
+              <div class="band-stat-pill">
+                <div class="stat-item">
+                  <span class="stat-label">Heart Rate</span>
+                  <span class="stat-value heart">72 bpm</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Sleep Score</span>
+                  <span class="stat-value">94%</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Daily Goal</span>
+                  <span class="stat-value">84%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         3. FEATURES SECTION
+         ========================================================================== -->
+    <section id="features" class="features-section">
+      <div class="container">
+        <span class="section-tag">Performance Engineered</span>
+        <h2 class="section-title">Designed to Keep Up With Every Beat</h2>
+        <p class="section-subtitle">
+          PulseFit bridges cutting-edge biometric sensors with intelligent daily wellness analytics, giving you complete command of your health.
+        </p>
+
+        <!-- Feature Grid (1 col mobile, 2 col tablet, 3 col desktop) -->
+        <div class="features-grid">
+          <!-- Feature 1: Heart Rate -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper icon-heart" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </div>
+            <h3>24/7 Heart-Rate Monitoring</h3>
+            <p>High-precision optical photoplethysmography sensors provide instant alerts for irregular beats and resting heart rhythm anomalies.</p>
+          </article>
+
+          <!-- Feature 2: Sleep Tracking -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper icon-sleep" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </div>
+            <h3>Advanced Sleep Stages</h3>
+            <p>Breakdown your nightly rest across Deep, Light, and REM cycles with smart wake alarms that awaken you during optimal light sleep.</p>
+          </article>
+
+          <!-- Feature 3: Battery Life -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper icon-battery" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="6" width="18" height="12" rx="2" ry="2"></rect>
+                <line x1="23" y1="13" x2="23" y2="11"></line>
+                <line x1="7" y1="10" x2="7" y2="14"></line>
+                <line x1="11" y1="10" x2="11" y2="14"></line>
+              </svg>
+            </div>
+            <h3>7-Day Ultra Battery</h3>
+            <p>Leave the charger behind. One single 45-minute quick charge powers continuous tracking and notifications for a full seven days.</p>
+          </article>
+
+          <!-- Feature 4: Water Resistance -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper icon-water" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+            </div>
+            <h3>50M Water Resistance</h3>
+            <p>5ATM water resistance rating protects your device during high-intensity sweat sessions, heavy rain, showering, and lap swimming.</p>
+          </article>
+
+          <!-- Feature 5: SpO2 & Stress Tracking -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper icon-oxygen" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h3>SpO2 &amp; Stress Analysis</h3>
+            <p>Continuous blood oxygen saturation checks and guided breath sessions help manage stress throughout demanding workdays.</p>
+          </article>
+
+          <!-- Feature 6: Smart Notifications -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper icon-alerts" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+            </div>
+            <h3>Haptic Smart Alerts</h3>
+            <p>Gentle micro-vibrations notify you of incoming calls, text previews, calendar reminders, and inactivity alerts without disturbing others.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         4. CALL TO ACTION (CTA) SECTION
+         ========================================================================== -->
+    <section id="buy" class="cta-section">
+      <div class="container">
+        <div class="cta-banner">
+          <span class="section-tag" style="background: rgba(255,255,255,0.2); color: #ffffff;">Limited Launch Offer</span>
+          <h2 class="cta-title">Ready to Take Control of Your Health?</h2>
+          <p class="cta-line">
+            Join over 150,000 active individuals crushing their fitness targets every day. Claim your PulseFit today with a special 20% introductory discount.
+          </p>
+          <div class="cta-button-group">
+            <a href="#buy" class="btn btn-white">
+              <span>Buy Now — Only $79</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+          <div class="cta-badge-bar">
+            <span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+              Free Global Shipping
+            </span>
+            <span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+              30-Day Money-Back Guarantee
+            </span>
+            <span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+              2-Year Hardware Warranty
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       5. FOOTER
+       ========================================================================== -->
+  <footer id="specs" class="site-footer">
+    <div class="container footer-container">
+      <!-- Brand column -->
+      <div class="footer-brand">
+        <a href="#home" class="logo" aria-label="PulseFit Home">
+          <div class="logo-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <span style="-webkit-text-fill-color: #ffffff;">PulseFit</span>
+        </a>
+        <p>Intelligent, durable, and comfortable health wearable technology designed to elevate your everyday performance.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <!-- Twitter / X -->
+          <a href="https://twitter.com" class="social-link" aria-label="PulseFit on Twitter" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+            </svg>
+          </a>
+          <!-- Instagram -->
+          <a href="https://instagram.com" class="social-link" aria-label="PulseFit on Instagram" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <!-- YouTube -->
+          <a href="https://youtube.com" class="social-link" aria-label="PulseFit on YouTube" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+              <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <nav class="footer-nav" aria-label="Product navigation">
+        <h4 class="footer-nav-title">Product</h4>
+        <a href="#features">Features</a>
+        <a href="#specs">Specifications</a>
+        <a href="#buy">Order Online</a>
+        <a href="#home">Firmware Updates</a>
+      </nav>
+
+      <!-- Support Links -->
+      <nav class="footer-nav" aria-label="Support navigation">
+        <h4 class="footer-nav-title">Support</h4>
+        <a href="#home">Help Center</a>
+        <a href="#home">Shipping &amp; Returns</a>
+        <a href="#home">Size Guide</a>
+        <a href="#home">Contact Support</a>
+      </nav>
+
+      <!-- Legal Links -->
+      <nav class="footer-nav" aria-label="Legal navigation">
+        <h4 class="footer-nav-title">Legal</h4>
+        <a href="#home">Privacy Policy</a>
+        <a href="#home">Terms of Service</a>
+        <a href="#home">Warranty Policy</a>
+        <a href="#home">Cookie Settings</a>
+      </nav>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 PulseFit Inc. All rights reserved. Designed for fitness enthusiasts everywhere.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

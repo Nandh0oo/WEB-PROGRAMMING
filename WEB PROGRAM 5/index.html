@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wanderlust Gallery | Nature & Travel Photography</title>
+  <meta name="description" content="An interactive responsive nature and travel photo gallery featuring lightbox slideshow, auto-play, filtering, and swipe gestures.">
+  
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="gallery-header">
+    <div class="header-content">
+      <span class="badge">Curated Collection</span>
+      <h1 class="gallery-title">Wanderlust Gallery</h1>
+      <p class="gallery-tagline">
+        Capturing the serene beauty, untamed landscapes, and vibrant cultures across the globe.
+      </p>
+    </div>
+
+    <!-- Category Filters -->
+    <nav class="filter-nav" aria-label="Filter gallery by category">
+      <div class="filter-container" role="tablist">
+        <button class="filter-btn active" data-category="all" role="tab" aria-selected="true">
+          All Photos <span class="filter-count" id="count-all">0</span>
+        </button>
+        <button class="filter-btn" data-category="Nature" role="tab" aria-selected="false">
+          Nature <span class="filter-count" id="count-nature">0</span>
+        </button>
+        <button class="filter-btn" data-category="Travel" role="tab" aria-selected="false">
+          Travel <span class="filter-count" id="count-travel">0</span>
+        </button>
+        <button class="filter-btn" data-category="City" role="tab" aria-selected="false">
+          City <span class="filter-count" id="count-city">0</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content: Image Grid -->
+  <main class="main-container">
+    <section class="gallery-section" aria-label="Photo Grid">
+      <div id="gallery-grid" class="gallery-grid">
+        <!-- Dynamically injected via script.js -->
+      </div>
+      <div id="empty-state" class="empty-state hidden" aria-live="polite">
+        <p>No photographs found in this category.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="gallery-footer">
+    <p>&copy; 2026 Wanderlust Gallery. Crafted with pure HTML5, CSS3, and Vanilla JavaScript.</p>
+  </footer>
+
+  <!-- Lightbox / Slideshow Modal -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image Slideshow Viewer" aria-hidden="true">
+    <!-- Backdrop overlay -->
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+
+    <!-- Lightbox Main Container -->
+    <div class="lightbox-content-wrapper">
+      
+      <!-- Top Bar: Counter & Actions -->
+      <div class="lightbox-top-bar">
+        <div class="lightbox-counter" id="lightbox-counter" aria-live="polite">1 / 10</div>
+        
+        <div class="lightbox-actions">
+          <button id="autoplay-btn" class="lightbox-btn autoplay-btn" aria-label="Toggle Auto-play slideshow" title="Auto-Play (Space / P)">
+            <svg class="icon play-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg class="icon pause-icon hidden" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+            <span class="btn-text">Play</span>
+          </button>
+
+          <button id="close-btn" class="lightbox-btn close-btn" aria-label="Close viewer" title="Close (Esc)">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Stage with Image and Nav Arrows -->
+      <div class="lightbox-stage" id="lightbox-stage">
+        <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous image" title="Previous image (Left Arrow)">
+          <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <figure class="lightbox-figure" id="lightbox-figure">
+          <div class="lightbox-image-container">
+            <img id="lightbox-img" class="lightbox-img" src="" alt="">
+            <div class="lightbox-spinner" id="lightbox-spinner" aria-label="Loading image"></div>
+          </div>
+          <figcaption id="lightbox-caption" class="lightbox-caption"></figcaption>
+        </figure>
+
+        <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next image" title="Next image (Right Arrow)">
+          <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Thumbnail Strip Navigation -->
+      <div class="lightbox-thumb-strip-wrapper">
+        <div class="lightbox-thumb-strip" id="lightbox-thumb-strip" role="tablist" aria-label="Thumbnail previews">
+          <!-- Dynamically populated thumbnails -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NovaPulse AI Smartwatch - Precision health tracking, spatial audio, and seamless connectivity engineered for high performance.">
+    <title>NovaPulse - Next-Gen AI Smartwatch</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Font: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">✦</span> NovaPulse
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-links" id="navLinks">
+                <a href="#about">Product</a>
+                <a href="#features">Features</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#specs">Specs</a>
+                <a href="#cta" class="nav-cta-btn">Buy Now</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero / Product Introduction Section -->
+        <section class="hero" id="about">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <span class="badge">🚀 Introducing NovaPulse OS 3.0</span>
+                    <h1 class="hero-title">Intelligent Wellness on Your Wrist.</h1>
+                    <p class="hero-description">
+                        Engineered with aerospace-grade titanium and powered by on-device bio-sensors. NovaPulse monitors your cardiovascular health, stress levels, and sleep cycles with unprecedented precision.
+                    </p>
+                    <div class="hero-cta-group">
+                        <a href="#cta" class="btn btn-primary">Pre-Order Now</a>
+                        <a href="#gallery" class="btn btn-secondary">Explore Gallery</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">14 Days</span>
+                            <span class="stat-label">Battery Life</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-number">50m</span>
+                            <span class="stat-label">Water Resistance</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-number">99.4%</span>
+                            <span class="stat-label">Sensor Accuracy</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image-wrapper">
+                    <div class="hero-glow"></div>
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80" alt="NovaPulse Smartwatch Hero Display" class="hero-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Features Section -->
+        <section class="features" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Core Capabilities</span>
+                    <h2 class="section-title">Built for Peak Performance</h2>
+                    <p class="section-subtitle">Discover cutting-edge sensors and intelligent algorithms designed to help you live healthier, train smarter, and stay connected.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">💓</div>
+                        <h3>Advanced ECG & Biometrics</h3>
+                        <p>Continuous heart-rate variability, blood oxygen (SpO2), and real-time arrhythmia notifications powered by medical-grade algorithms.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔋</div>
+                        <h3>Ultra-Long Battery Endurance</h3>
+                        <p>Optimized low-power dual-core silicon delivers up to 14 full days of typical use on a single 30-minute rapid wireless charge.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">💎</div>
+                        <h3>Titanium & Sapphire Glass</h3>
+                        <p>Forged from Grade 5 aerospace titanium with scratch-resistant sapphire crystal glass. Built to endure any climate and extreme condition.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🛰️</div>
+                        <h3>Multi-Band Dual-Frequency GPS</h3>
+                        <p>L1 and L5 satellite tracking pinpoints your exact route through dense forests and metropolitan high-rises with zero drift.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🌙</div>
+                        <h3>Deep AI Sleep Coach</h3>
+                        <p>Comprehensive tracking of REM, light, and deep sleep stages paired with actionable circadian rhythm recovery tips.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>LTE & Offline Music</h3>
+                        <p>Untether from your phone. Receive calls, stream playlists directly to your Bluetooth earbuds, and pay via contactless NFC.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Image Gallery Section -->
+        <section class="gallery-section" id="gallery">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Interactive Showcase</span>
+                    <h2 class="section-title">Designed From Every Perspective</h2>
+                    <p class="section-subtitle">Explore the craftsmanship, diverse color finishes, and sleek interface. Click any image to launch the full-screen interactive slideshow.</p>
+                </div>
+
+                <!-- Gallery Grid with Hover Effects -->
+                <div class="gallery-grid" id="galleryGrid">
+                    <div class="gallery-item" data-index="0">
+                        <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80" alt="NovaPulse Midnight Black Edition" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-icon">🔍</span>
+                            <h4>Midnight Black Edition</h4>
+                            <p>Brushed matte titanium casing</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-index="1">
+                        <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80" alt="NovaPulse AMOLED Retina Display" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-icon">🔍</span>
+                            <h4>Always-On AMOLED Display</h4>
+                            <p>3000 nits peak outdoor brightness</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-index="2">
+                        <img src="https://images.unsplash.com/photo-1544117518-30df578096a4?auto=format&fit=crop&w=800&q=80" alt="NovaPulse Quick-Release Sport Bands" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-icon">🔍</span>
+                            <h4>Fluoroelastomer Sport Band</h4>
+                            <p>Sweatproof, breathable, and ultra-durable</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-index="3">
+                        <img src="https://images.unsplash.com/photo-1510017803434-a899398421b3?auto=format&fit=crop&w=800&q=80" alt="NovaPulse Precision Biometric Sensor" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-icon">🔍</span>
+                            <h4>Ceramic Bio-Sensor Array</h4>
+                            <p>Multi-wavelength optical photodiode hub</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-index="4">
+                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80" alt="NovaPulse Silver Edition" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-icon">🔍</span>
+                            <h4>Arctic Silver Finish</h4>
+                            <p>Precision CNC diamond-cut edges</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-index="5">
+                        <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80" alt="NovaPulse Active Lifestyle" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-icon">🔍</span>
+                            <h4>Trail & Water Ready</h4>
+                            <p>Certified 5ATM water resistance</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slideshow Controls Toolbar -->
+                <div class="slideshow-toolbar">
+                    <button id="openSlideshowBtn" class="btn btn-outline">▶ Launch Fullscreen Slideshow</button>
+                    <div class="autoplay-control-group">
+                        <label class="switch-label" for="autoPlayToggle">
+                            <input type="checkbox" id="autoPlayToggle">
+                            <span class="slider"></span>
+                            <span class="label-text">Auto-Play Slideshow (3s)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slideshow Modal / Lightbox -->
+        <div class="slideshow-modal" id="slideshowModal" role="dialog" aria-modal="true" aria-label="Image Slideshow">
+            <div class="modal-backdrop" id="modalBackdrop"></div>
+            
+            <div class="modal-content">
+                <button class="close-btn" id="closeModalBtn" aria-label="Close slideshow">&times;</button>
+                
+                <div class="slideshow-container">
+                    <button class="nav-arrow prev-btn" id="prevSlideBtn" aria-label="Previous image">&#10094;</button>
+                    
+                    <div class="slide-wrapper">
+                        <img src="" alt="" id="slideshowImage" class="slideshow-img">
+                        <div class="slide-caption">
+                            <h3 id="captionTitle">Title</h3>
+                            <p id="captionDescription">Description</p>
+                            <span class="slide-counter" id="slideCounter">1 / 6</span>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-arrow next-btn" id="nextSlideBtn" aria-label="Next image">&#10095;</button>
+                </div>
+
+                <!-- Slide Dots Pagination -->
+                <div class="dots-container" id="dotsContainer">
+                    <!-- Injected by JavaScript -->
+                </div>
+
+                <!-- Modal Play / Pause Button -->
+                <div class="modal-controls">
+                    <button id="modalPlayPauseBtn" class="btn btn-sm">⏸ Pause Auto-Play</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call To Action (CTA) Section -->
+        <section class="cta-section" id="cta">
+            <div class="container">
+                <div class="cta-card">
+                    <div class="cta-content">
+                        <span class="cta-tag">Limited Time Launch Offer</span>
+                        <h2 class="cta-title">Upgrade Your Health Today.</h2>
+                        <p class="cta-text">
+                            Pre-order the NovaPulse AI Smartwatch now and receive an extra fluoroelastomer band, magnetic wireless charging dock, and 1 year of NovaPulse Cloud Analytics for free.
+                        </p>
+                        <div class="pricing-badge">
+                            <span class="original-price">$399</span>
+                            <span class="discounted-price">$299</span>
+                            <span class="save-tag">Save $100</span>
+                        </div>
+                        <div class="cta-buttons">
+                            <a href="#cta" class="btn btn-primary btn-large" id="buyNowBtn">Buy Now — $299</a>
+                            <a href="#newsletter" class="btn btn-secondary btn-large">Join VIP Waitlist</a>
+                        </div>
+                        <ul class="cta-perks">
+                            <li>✓ Free Global Shipping</li>
+                            <li>✓ 30-Day Money-Back Guarantee</li>
+                            <li>✓ 2-Year Warranty Included</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter / Sign Up Section -->
+        <section class="newsletter-section" id="newsletter">
+            <div class="container">
+                <div class="newsletter-box">
+                    <h3>Stay Ahead with the Latest Tech Drops</h3>
+                    <p>Subscribe for exclusive firmware updates, wellness guides, and member-only accessory discounts.</p>
+                    <form class="newsletter-form" id="newsletterForm" onsubmit="event.preventDefault(); alert('Thank you for subscribing to NovaPulse!');">
+                        <input type="email" placeholder="Enter your email address" required aria-label="Email address">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <a href="#" class="logo footer-logo">
+                    <span class="logo-icon">✦</span> NovaPulse
+                </a>
+                <p class="footer-desc">Next-generation spatial wearable technology engineered for peak human health and performance.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#about">Overview</a></li>
+                    <li><a href="#features">Health Sensors</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#cta">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#faq">User Manual</a></li>
+                    <li><a href="#shipping">Shipping Policy</a></li>
+                    <li><a href="#warranty">Warranty & Returns</a></li>
+                    <li><a href="#contact">Contact Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter">Twitter</a>
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="#" aria-label="YouTube">YouTube</a>
+                    <a href="#" aria-label="GitHub">GitHub</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 NovaPulse Technologies Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
